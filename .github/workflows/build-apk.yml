@@ -5,6 +5,9 @@ on:
     branches: ["main", "claude/**"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -64,3 +67,14 @@ jobs:
           path: |
             app/build/reports
             core/build/reports
+
+      - name: Publish downloadable release
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="apk-build-${{ github.run_number }}"
+          gh release create "$TAG" dist/SocMedManager.apk \
+            --target "${{ github.sha }}" \
+            --title "SocMed Manager APK (build ${{ github.run_number }})" \
+            --notes "Install by opening SocMedManager.apk on your Android phone. Export a backup (Settings > Backup & restore) before updating over an existing install."

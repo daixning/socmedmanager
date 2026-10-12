@@ -72,7 +72,7 @@ fun EventsScreen() {
             if (list.isEmpty()) item { EmptyState(if (showPast) "No past events." else "No upcoming events. Tap New event to plan one.") }
             items(list, key = { it.id }) { e -> EventCard(e, zone, now) }
         }
-        ExtendedFloatingActionButton(onClick = { add = true }, Modifier.align(Alignment.BottomEnd).padding(16.dp), icon = { Icon(Icons.Filled.Add, null) }, text = { Text("New event") })
+        ExtendedFloatingActionButton(onClick = { add = true }, modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), icon = { Icon(Icons.Filled.Add, null) }, text = { Text("New event") })
     }
     if (add) EventNameDialog(null) { add = false }
 }
